@@ -1,31 +1,72 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Gift, Phone, User } from "lucide-react";
+import { Gift, Phone, User, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import { usePhoneAuth } from "@/hooks/usePhoneAuth";
+import { useToast } from "@/hooks/use-toast";
 
 const CustomerLogin = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState<'phone' | 'details'>('phone');
+  const [formData, setFormData] = useState({
+    phone: '',
+    name: '',
+    email: ''
+  });
+  const { isLoading, step, phoneNumber, verifyPhone, createCustomer, resetFlow } = usePhoneAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Check if customer exists in Supabase
-    setTimeout(() => {
-      setIsLoading(false);
-      setStep('details'); // For demo, assume customer needs to complete registration
-    }, 1500);
+    const phone = formData.phone.trim();
+    
+    if (!phone.startsWith('+254') || phone.length !== 13) {
+      toast({
+        title: "Invalid Phone Number",
+        description: "Please enter a valid Kenyan phone number starting with +254",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const result = await verifyPhone(phone);
+    if (result.exists && result.customer) {
+      // Customer exists, simulate login success
+      toast({
+        title: "Welcome back!",
+        description: `Hello ${result.customer.name}, you have ${result.customer.available_points} points available.`,
+      });
+      navigate('/customer-dashboard');
+    }
   };
 
   const handleDetailsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    // TODO: Complete customer registration in Supabase
-    setTimeout(() => setIsLoading(false), 2000);
+    
+    if (!formData.name.trim()) {
+      toast({
+        title: "Name Required",
+        description: "Please enter your full name",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await createCustomer({
+        name: formData.name.trim(),
+        phone: phoneNumber,
+        email: formData.email.trim() || undefined,
+      });
+      
+      navigate('/customer-dashboard');
+    } catch (error) {
+      // Error handled in hook
+    }
   };
 
   return (
@@ -59,6 +100,8 @@ const CustomerLogin = () => {
                       type="tel"
                       placeholder="+254700000000"
                       className="pl-10"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       required 
                     />
                   </div>
@@ -85,7 +128,23 @@ const CustomerLogin = () => {
                       id="fullName" 
                       placeholder="Your Full Name"
                       className="pl-10"
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
                       required 
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email (Optional)</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input 
+                      id="email" 
+                      type="email"
+                      placeholder="your@email.com"
+                      className="pl-10"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
                     />
                   </div>
                 </div>
@@ -95,7 +154,7 @@ const CustomerLogin = () => {
                     <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input 
                       id="phoneConfirm" 
-                      value="+254700000000"
+                      value={phoneNumber}
                       disabled
                       className="pl-10 bg-gray-50"
                     />
@@ -108,7 +167,7 @@ const CustomerLogin = () => {
                   type="button" 
                   variant="outline" 
                   className="w-full" 
-                  onClick={() => setStep('phone')}
+                  onClick={resetFlow}
                 >
                   Use Different Number
                 </Button>
