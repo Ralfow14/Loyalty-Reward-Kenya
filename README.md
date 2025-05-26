@@ -71,3 +71,13 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+curl -X POST https://hhvdzapwvquzabtuvllp.supabase.co/functions/v1/mpesa-payment -H"Content-Type:application/json"
+  -d '{
+    "action": "stkpush",
+    "phone": "254790704966",
+    "amount": 100,
+    "businessId": "001",
+    "description": "Test payment"
+}'
+
