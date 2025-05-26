@@ -1,8 +1,29 @@
-# Welcome to your Lovable project
+# Welcome to Our Lovable project
+We were presented with a hackathon by PLP Africa where we were encouraged to build Human-Centered, Joy-Driven Solutions Using AI and Low-Code Tools and also leverage the use of AI prompts in creating  tailormade web solutions.
+
+ We were to explore how smart tools and creative coding can reshape the way we solve everyday problems as software engineers and were supposed to work as a group to be able to deliver on this project.
+
+ The following is our pitch deck presentation  https://gamma.app/docs/SmartLoyal-bhezg6z9cso8led
+ 
+The following is our  live website https://points-passport-kenya.lovable.app/
+
+##Collaborators
+Raphael ochieng'
+Mwangi Wambugu 
+Zumrati Yusuf
+Velile Mifi
+Aileen Nyathi
+Neo Mokoele
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/6e3478ed-2ce2-41f7-8746-ea5864b1609b
+We created a loyalty rewards points sytem where Local barbershops,salons and Eateries could reward customers for by giving them a discounts  based on the number of visits,points and amount they spend.
+
+The main aim of our solution is to foster  and cultivate Customer loyalty and create  valid customer base for business.
+
+We leveraged the use of Lovable to build the whole solution and also We leveraged the Supabase to build the whole Backend and handle the traffic and data that would be generated to when users join.
+
+The following we are the steps lovable on how we are supposed to deploy and host the website
 
 ## How can I edit this code?
 
@@ -59,7 +80,8 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
-
+  
+We also enlisted the use of Daraja API for our payments processing system and also Supabase for backend
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/6e3478ed-2ce2-41f7-8746-ea5864b1609b) and click on Share -> Publish.
