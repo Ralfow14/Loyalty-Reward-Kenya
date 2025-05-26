@@ -3,10 +3,17 @@ We were presented with a hackathon by PLP Africa where we were encouraged to bui
 
  We were to explore how smart tools and creative coding can reshape the way we solve everyday problems as software engineers and were supposed to work as a group to be able to deliver on this project.
 
+ The following is our pitch deck presentation  https://gamma.app/docs/SmartLoyal-bhezg6z9cso8led
+ 
+The following is our  live website https://points-passport-kenya.lovable.app/
 ##Collaborators
 Raphael ochieng'
 Mwangi Wambugu 
 Zumrati Yusuf
+Velile Mifi
+Aileen Nyathi
+Neo Mokoele
+
 ## Project info
 
 We created a loyalty rewards points sytem where Local barbershops,salons and Eateries could reward customers for by giving them a discounts  based on the number of visits,points and amount they spend.
