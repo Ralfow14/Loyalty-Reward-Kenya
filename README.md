@@ -1,4 +1,4 @@
-# Welcome to your Lovable project
+# Welcome to Our Lovable project
 We were presented with a hackathon by PLP Africa where we were encouraged to build Human-Centered, Joy-Driven Solutions Using AI and Low-Code Tools and also leverage the use of AI prompts in creating  tailormade web solutions.
 
  We were to explore how smart tools and creative coding can reshape the way we solve everyday problems as software engineers and were supposed to work as a group to be able to deliver on this project.
