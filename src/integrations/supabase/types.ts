@@ -11,119 +11,59 @@ export type Database = {
     Tables: {
       businesses: {
         Row: {
-          address: string | null
-          created_at: string
-          email: string | null
+          business_type: string | null
+          created_at: string | null
           id: string
           name: string
-          owner_id: string
-          phone: string
-          points_per_shilling: number | null
-          reward_threshold: number | null
-          reward_value: number | null
-          updated_at: string
+          owner_user_id: string
         }
         Insert: {
-          address?: string | null
-          created_at?: string
-          email?: string | null
+          business_type?: string | null
+          created_at?: string | null
           id?: string
           name: string
-          owner_id: string
-          phone: string
-          points_per_shilling?: number | null
-          reward_threshold?: number | null
-          reward_value?: number | null
-          updated_at?: string
+          owner_user_id: string
         }
         Update: {
-          address?: string | null
-          created_at?: string
-          email?: string | null
+          business_type?: string | null
+          created_at?: string | null
           id?: string
           name?: string
-          owner_id?: string
-          phone?: string
-          points_per_shilling?: number | null
-          reward_threshold?: number | null
-          reward_value?: number | null
-          updated_at?: string
+          owner_user_id?: string
         }
         Relationships: []
       }
       customers: {
         Row: {
-          available_points: number | null
-          created_at: string
-          email: string | null
+          business_id: string
+          created_at: string | null
+          full_name: string
           id: string
-          name: string
           phone: string
-          total_points: number | null
-          total_visits: number | null
-          updated_at: string
+          points: number
         }
         Insert: {
-          available_points?: number | null
-          created_at?: string
-          email?: string | null
+          business_id: string
+          created_at?: string | null
+          full_name: string
           id?: string
-          name: string
           phone: string
-          total_points?: number | null
-          total_visits?: number | null
-          updated_at?: string
+          points?: number
         }
         Update: {
-          available_points?: number | null
-          created_at?: string
-          email?: string | null
+          business_id?: string
+          created_at?: string | null
+          full_name?: string
           id?: string
-          name?: string
           phone?: string
-          total_points?: number | null
-          total_visits?: number | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      notifications: {
-        Row: {
-          created_at: string
-          customer_id: string | null
-          id: string
-          message: string
-          read: boolean | null
-          title: string
-          type: string
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          customer_id?: string | null
-          id?: string
-          message: string
-          read?: boolean | null
-          title: string
-          type: string
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          customer_id?: string | null
-          id?: string
-          message?: string
-          read?: boolean | null
-          title?: string
-          type?: string
-          user_id?: string | null
+          points?: number
         }
         Relationships: [
           {
-            foreignKeyName: "notifications_customer_id_fkey"
-            columns: ["customer_id"]
+            foreignKeyName: "customers_business_id_fkey"
+            columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "customers"
+            referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
         ]
@@ -131,36 +71,33 @@ export type Database = {
       rewards: {
         Row: {
           business_id: string
-          created_at: string
           customer_id: string
-          expires_at: string | null
           id: string
-          points_redeemed: number
+          is_redeemed: boolean
+          issued_at: string | null
+          points_at_issuance: number
           redeemed_at: string | null
-          reward_value: number
-          status: string | null
+          reward_type: string
         }
         Insert: {
           business_id: string
-          created_at?: string
           customer_id: string
-          expires_at?: string | null
           id?: string
-          points_redeemed: number
+          is_redeemed?: boolean
+          issued_at?: string | null
+          points_at_issuance: number
           redeemed_at?: string | null
-          reward_value: number
-          status?: string | null
+          reward_type?: string
         }
         Update: {
           business_id?: string
-          created_at?: string
           customer_id?: string
-          expires_at?: string | null
           id?: string
-          points_redeemed?: number
+          is_redeemed?: boolean
+          issued_at?: string | null
+          points_at_issuance?: number
           redeemed_at?: string | null
-          reward_value?: number
-          status?: string | null
+          reward_type?: string
         }
         Relationships: [
           {
@@ -183,32 +120,32 @@ export type Database = {
         Row: {
           amount: number
           business_id: string
-          created_at: string
           customer_id: string
           id: string
-          mpesa_transaction_id: string | null
-          points_awarded: number
-          status: string | null
+          metadata: Json | null
+          mpesa_receipt: string | null
+          payment_time: string | null
+          phone: string
         }
         Insert: {
           amount: number
           business_id: string
-          created_at?: string
           customer_id: string
           id?: string
-          mpesa_transaction_id?: string | null
-          points_awarded?: number
-          status?: string | null
+          metadata?: Json | null
+          mpesa_receipt?: string | null
+          payment_time?: string | null
+          phone: string
         }
         Update: {
           amount?: number
           business_id?: string
-          created_at?: string
           customer_id?: string
           id?: string
-          mpesa_transaction_id?: string | null
-          points_awarded?: number
-          status?: string | null
+          metadata?: Json | null
+          mpesa_receipt?: string | null
+          payment_time?: string | null
+          phone?: string
         }
         Relationships: [
           {
@@ -229,54 +166,52 @@ export type Database = {
       }
       user_profiles: {
         Row: {
-          created_at: string
-          full_name: string | null
+          business_id: string | null
+          customer_id: string | null
           id: string
-          phone: string | null
-          role: Database["public"]["Enums"]["user_role"]
-          updated_at: string
-          user_id: string
+          role: string
         }
         Insert: {
-          created_at?: string
-          full_name?: string | null
-          id?: string
-          phone?: string | null
-          role: Database["public"]["Enums"]["user_role"]
-          updated_at?: string
-          user_id: string
+          business_id?: string | null
+          customer_id?: string | null
+          id: string
+          role: string
         }
         Update: {
-          created_at?: string
-          full_name?: string | null
+          business_id?: string | null
+          customer_id?: string | null
           id?: string
-          phone?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
-          updated_at?: string
-          user_id?: string
+          role?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_profiles_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_profiles_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      calculate_points: {
-        Args: { business_uuid: string; amount_kes: number }
-        Returns: number
-      }
-      get_user_business_id: {
-        Args: { user_uuid: string }
-        Returns: string
-      }
-      get_user_role: {
-        Args: { user_uuid: string }
-        Returns: Database["public"]["Enums"]["user_role"]
+      has_business_role: {
+        Args: { _role: string }
+        Returns: boolean
       }
     }
     Enums: {
-      user_role: "business_owner" | "customer"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -391,8 +326,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      user_role: ["business_owner", "customer"],
-    },
+    Enums: {},
   },
 } as const
